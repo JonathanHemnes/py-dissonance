@@ -3,7 +3,6 @@ from constants import Constants
 from finder import Finder
 from replacer import Replacer
 from storage import Storage
-import pprint
 auth = tweepy.OAuthHandler(Constants.consumer_key, Constants.consumer_secret)
 auth.set_access_token(Constants.access_token, Constants.access_token_secret)
 
