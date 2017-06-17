@@ -13,9 +13,9 @@ storage = Storage()
 
 for source in Constants.feeds_to_watch:
     print(source)
-    last_read_id = storage.get_latest_read_tweet_id(source)
+    # last_read_id = storage.get_latest_read_tweet_id(source)
     try:
-        tweets = api.user_timeline(screen_name = source, since_id = last_read_id)
+        tweets = api.user_timeline(screen_name = source)
     except tweepy.error.TweepError:
         tweets = []
         pass
@@ -25,4 +25,7 @@ for source in Constants.feeds_to_watch:
         replaced_tweets = replacer.replace_trump_references(trump_related_tweets)
         cleaned_tweets = replacer.clean_tweets(replaced_tweets)
         for tweet in cleaned_tweets:
-            print(tweet.text)
+            try:
+                api.update_status(tweet.text)
+            except tweepy.error.TweepError:
+                pass
