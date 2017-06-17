@@ -30,7 +30,9 @@ while True:
             cleaned_tweets = replacer.clean_tweets(replaced_tweets, source)
             for tweet in cleaned_tweets:
                 try:
+                    print('writing status ' + tweet.text)
                     api.update_status(tweet.text)
-                except tweepy.error.TweepError:
+                except tweepy.error.TweepError as err:
+                    print(err)
                     pass
     time.sleep(180)
