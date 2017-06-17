@@ -12,12 +12,14 @@ finder = Finder()
 replacer = Replacer()
 storage = Storage()
 
-storage.get_all_tweets()
-
 for source in Constants.feeds_to_watch:
     print(source)
     last_read_id = storage.get_latest_read_tweet_id(source)
-    tweets = api.user_timeline(screen_name = source, since_id = last_read_id)
+    try:
+        tweets = api.user_timeline(screen_name = source, since_id = last_read_id)
+    except tweepy.error.TweepError:
+        tweets = []
+        pass
     if tweets and len(tweets) > 0:
         storage.store_latest_tweet_id(source, tweets[0].id)
         trump_related_tweets = finder.get_trump_related_tweets(tweets)
