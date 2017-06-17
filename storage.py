@@ -9,9 +9,19 @@ class Storage:
     def store_latest_tweet_id(self, sourceName, tweet_id):
         conn = self.get_connection()
         cursor = conn.cursor()
-        cursor.execute('UPDATE Tweet SET LastTweet = ? WHERE SourceName = ?', (sourceName, tweet_id))
+        cursor.execute('UPDATE Tweet SET LastTweet = ? WHERE SourceName = ?', (tweet_id, sourceName ))
         conn.commit()
         conn.close()
+
+    def get_latest_read_tweet_id(self, sourceName):
+        conn = self.get_connection()
+        cursor = conn.cursor()
+        cursor.execute('SELECT LastTweet from Tweet where SourceName = ?', (sourceName,))
+        last_read = 0
+        for row in cursor:
+            last_read = row[0]
+        conn.close()
+        return last_read
 
     def get_connection(self):
         return sqlite3.connect('tweets.db')
@@ -30,3 +40,9 @@ class Storage:
             cursor.execute('INSERT INTO Tweet(SourceName) SELECT ? WHERE NOT EXISTS(SELECT 1 FROM Tweet WHERE SourceName = ?);', (sourceName, sourceName))
         conn.commit()
         conn.close()
+
+    def get_all_tweets(self):
+        conn = self.get_connection()
+        cursor = conn.cursor()
+        for row in cursor.execute('SELECT * FROM Tweet'):
+            print(row)
