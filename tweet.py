@@ -15,26 +15,23 @@ storage = Storage()
 
 storage.get_all_tweets()
 
-while True:
-
-    for source in Constants.feeds_to_watch:
-        print(source)
-        last_read_id = storage.get_latest_read_tweet_id(source)
-        try:
-            tweets = api.user_timeline(screen_name = source, since_id = last_read_id)
-        except tweepy.error.TweepError:
-            tweets = []
-            pass
-        if tweets and len(tweets) > 0:
-            storage.store_latest_tweet_id(source, tweets[0].id)
-            trump_related_tweets = finder.get_trump_related_tweets(tweets)
-            replaced_tweets = replacer.replace_trump_references(trump_related_tweets)
-            cleaned_tweets = replacer.clean_tweets(replaced_tweets, source)
-            for tweet in cleaned_tweets:
-                try:
-                    print('Writing status ' + tweet.text)
-                    api.update_status(tweet.text)
-                except tweepy.error.TweepError as err:
-                    print(err)
-                    pass
-    time.sleep(180)
+for source in Constants.feeds_to_watch:
+    print(source)
+    last_read_id = storage.get_latest_read_tweet_id(source)
+    try:
+        tweets = api.user_timeline(screen_name = source, since_id = last_read_id)
+    except tweepy.error.TweepError:
+        tweets = []
+        pass
+    if tweets and len(tweets) > 0:
+        storage.store_latest_tweet_id(source, tweets[0].id)
+        trump_related_tweets = finder.get_trump_related_tweets(tweets)
+        replaced_tweets = replacer.replace_trump_references(trump_related_tweets)
+        cleaned_tweets = replacer.clean_tweets(replaced_tweets, source)
+        for tweet in cleaned_tweets:
+            try:
+                print('Writing status ' + tweet.text)
+                api.update_status(tweet.text)
+            except tweepy.error.TweepError as err:
+                print(err)
+                pass
