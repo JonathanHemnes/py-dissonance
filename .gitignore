@@ -1,3 +1,4 @@
 constants.py
 *.pyc
 tweets.db
+pics/

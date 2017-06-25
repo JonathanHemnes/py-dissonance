@@ -17,11 +17,9 @@ class Replacer:
 
         return replaced_tweets
     
-    def clean_tweets(self, tweets, source):
+    def clean_tweets(self, tweets):
         for tweet in tweets:
             tweet.text = re.sub(r'https:\/\/t.co\/.+\b', '', tweet.text)
             tweet.text = re.sub(r'…', '', tweet.text)
             tweet.text = re.sub(r'@', '', tweet.text)
-            if len(tweet.text) < 135:
-                tweet.text += ' -' + source
         return tweets
