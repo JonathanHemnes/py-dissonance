@@ -1,11 +1,12 @@
 import imgkit
+import os
 
 class ImageGenerator:
     def generate_image(self, string):
         options = {
             'format': 'png',
             'crop-w': '425',
-            'quiet': '',
             "xvfb": ""
         }
-        imgkit.from_string(string, './pics/out.png', options=options)
+        dir = os.getcwd() + 'pics/out.png'
+        imgkit.from_string(string, dir, options=options)
