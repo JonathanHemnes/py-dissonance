@@ -5,6 +5,6 @@ class ImageGenerator:
         options = {
             'format': 'png',
             'crop-w': '425',
-            'quiet': True
+            'quiet': ''
         }
         imgkit.from_string(string, './pics/out.png', options=options)
