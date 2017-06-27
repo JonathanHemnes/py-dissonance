@@ -8,10 +8,6 @@ from html_generator import HtmlGenerator
 from image_generator import ImageGenerator
 import subprocess
 
-import os, getpass
-print("Env thinks the user is [%s]" % (os.getlogin()))
-print("Effective user is [%s]" % (getpass.getuser()))
-
 auth = tweepy.OAuthHandler(Constants.consumer_key, Constants.consumer_secret)
 auth.set_access_token(Constants.access_token, Constants.access_token_secret)
 
