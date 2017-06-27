@@ -30,7 +30,7 @@ for source in Constants.feeds_to_watch:
     print(source)
     last_read_id = storage.get_latest_read_tweet_id(source)
     try:
-        tweets = api.user_timeline(screen_name = source)
+        tweets = api.user_timeline(screen_name = source, since_id=last_read_id)
     except tweepy.error.TweepError:
         tweets = []
         pass
