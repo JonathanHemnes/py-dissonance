@@ -8,5 +8,5 @@ class ImageGenerator:
             'crop-w': '425',
              "xvfb": ""
         }
-        dir = r'pics/out.png'
+        dir = r'./pics/out.png'
         imgkit.from_string(string, dir, options=options)

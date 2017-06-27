@@ -46,11 +46,6 @@ for source in Constants.feeds_to_watch:
 
             html = generator.generate(author, created_at, text)
             imgGenerator.generate_image(html)
-            # file_text = open('./render/render.html', 'w', encoding='utf-8')
-            # file_text.write(html)
-            # file_text.close()
-
-            # result = subprocess.Popen(["xvfb-run" ,"wkhtmltoimage", "./render/render.html", "./pics/out.jpg"], stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
             try:
                 print('Writing status ' + tweet.text)
                 api.update_with_media('./pics/out.jpg')
