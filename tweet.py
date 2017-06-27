@@ -48,7 +48,7 @@ for source in Constants.feeds_to_watch:
             imgGenerator.generate_image(html)
             try:
                 print('Writing status ' + tweet.text)
-                api.update_with_media('./pics/out.jpg')
+                api.update_with_media('./pics/out.png')
             except tweepy.error.TweepError as err:
                 print(err)
                 pass
