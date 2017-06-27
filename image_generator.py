@@ -6,7 +6,7 @@ class ImageGenerator:
         options = {
             'format': 'png',
             'crop-w': '425',
-            "xvfb": ""
+             "xvfb": ""
         }
-        dir = os.getcwd() + 'pics/out.png'
+        dir = r'pics/out.png'
         imgkit.from_string(string, dir, options=options)

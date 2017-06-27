@@ -8,6 +8,10 @@ from html_generator import HtmlGenerator
 from image_generator import ImageGenerator
 import subprocess
 
+import os, getpass
+print("Env thinks the user is [%s]" % (os.getlogin()))
+print("Effective user is [%s]" % (getpass.getuser()))
+
 auth = tweepy.OAuthHandler(Constants.consumer_key, Constants.consumer_secret)
 auth.set_access_token(Constants.access_token, Constants.access_token_secret)
 
@@ -26,7 +30,7 @@ for source in Constants.feeds_to_watch:
     print(source)
     last_read_id = storage.get_latest_read_tweet_id(source)
     try:
-        tweets = api.user_timeline(screen_name = source, since_id=last_read_id)
+        tweets = api.user_timeline(screen_name = source)
     except tweepy.error.TweepError:
         tweets = []
         pass
@@ -41,11 +45,12 @@ for source in Constants.feeds_to_watch:
             text = tweet.text
 
             html = generator.generate(author, created_at, text)
-            # imgGenerator.generate_image(html)
-            file_text = open('./render/render.html', 'w', encoding='utf-8')
-            file_text.write(html)
-            file_text.close()
-            result = subprocess.Popen(["xvfb-run" ,"wkhtmltoimage", "./render/render.html", "./pics/out.jpg"], stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+            imgGenerator.generate_image(html)
+            # file_text = open('./render/render.html', 'w', encoding='utf-8')
+            # file_text.write(html)
+            # file_text.close()
+
+            # result = subprocess.Popen(["xvfb-run" ,"wkhtmltoimage", "./render/render.html", "./pics/out.jpg"], stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
             try:
                 print('Writing status ' + tweet.text)
                 api.update_with_media('./pics/out.jpg')
