@@ -1,5 +1,7 @@
 import imgkit
 import os
+import inspect
+import tempfile
 
 class ImageGenerator:
     def generate_image(self, string):
@@ -8,5 +10,7 @@ class ImageGenerator:
             'crop-w': '425',
              "xvfb": ""
         }
-        dir = r'./pics/out.png'
-        imgkit.from_string(string, dir, options=options)
+
+        file = tempfile.NamedTemporaryFile(suffix='.png')
+        print(file.name)
+        imgkit.from_string(string, file.name, options=options)

@@ -26,7 +26,7 @@ for source in Constants.feeds_to_watch:
     print(source)
     last_read_id = storage.get_latest_read_tweet_id(source)
     try:
-        tweets = api.user_timeline(screen_name = source, since_id=last_read_id)
+        tweets = api.user_timeline(screen_name = source)
     except tweepy.error.TweepError:
         tweets = []
         pass
@@ -44,7 +44,7 @@ for source in Constants.feeds_to_watch:
             imgGenerator.generate_image(html)
             try:
                 print('Writing status ' + tweet.text)
-                api.update_with_media('./pics/out.png')
+                # api.update_with_media('./pics/out.png')
             except tweepy.error.TweepError as err:
                 print(err)
                 pass
