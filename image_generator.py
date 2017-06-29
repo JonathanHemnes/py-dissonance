@@ -13,4 +13,4 @@ class ImageGenerator:
 
         file = tempfile.NamedTemporaryFile(suffix='.png')
         print(file.name)
-        imgkit.from_string(string, file.name, options=options)
+        imgkit.from_string(string, './pics/out.png', options=options)
