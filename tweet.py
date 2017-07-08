@@ -6,7 +6,6 @@ from replacer import Replacer
 from storage import Storage
 from html_generator import HtmlGenerator
 from image_generator import ImageGenerator
-import subprocess
 
 auth = tweepy.OAuthHandler(Constants.consumer_key, Constants.consumer_secret)
 auth.set_access_token(Constants.access_token, Constants.access_token_secret)
@@ -18,15 +17,13 @@ storage = Storage()
 generator = HtmlGenerator()
 imgGenerator = ImageGenerator()
 
-generator.generate('author', '10/22/1986', 'text')
-
 storage.get_all_tweets()
 
 for source in Constants.feeds_to_watch:
     print(source)
     last_read_id = storage.get_latest_read_tweet_id(source)
     try:
-        tweets = api.user_timeline(screen_name = source)
+        tweets = api.user_timeline(screen_name = source, since_id=last_read_id)
     except tweepy.error.TweepError:
         tweets = []
         pass
@@ -40,11 +37,11 @@ for source in Constants.feeds_to_watch:
             author = tweet.author.name
             text = tweet.text
 
-            html = generator.generate(author, created_at, text)
-            imgGenerator.generate_image(html)
+            # html = generator.generate(author, created_at, text)
+            # imgGenerator.generate_image(html)
             try:
                 print('Writing status ' + tweet.text)
-                # api.update_with_media('./pics/out.png')
+                api.update_status(tweet.text)
             except tweepy.error.TweepError as err:
                 print(err)
                 pass

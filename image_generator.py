@@ -8,9 +8,7 @@ class ImageGenerator:
         options = {
             'format': 'png',
             'crop-w': '425',
-             "xvfb": ""
+            #  "xvfb": ""
         }
 
-        file = tempfile.NamedTemporaryFile(suffix='.png')
-        print(file.name)
         imgkit.from_string(string, './pics/out.png', options=options)
